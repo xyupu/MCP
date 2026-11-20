@@ -1,0 +1,16 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: "webhook-aicops"
+  group_by: ["alertname", "severity"]
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+
+receivers:
+  - name: "webhook-aicops"
+    webhook_configs:
+      # 阶段1：alert-service 实现 /api/v1/alerts/ingest 后，将 host.docker.internal 替换为该服务地址
+      - url: "http://host.docker.internal:8083/api/v1/alerts/ingest"
+        send_resolved: true

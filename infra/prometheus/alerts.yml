@@ -1,0 +1,12 @@
+# 阶段0 演示告警规则：Node/Pod 存活性示例，后续按 Sock Shop 实际指标细化
+groups:
+  - name: aicops-demo
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "实例 {{ $labels.instance }} 已宕机"
+          description: "实例 {{ $labels.instance }} 超过 1 分钟无法抓取指标"
