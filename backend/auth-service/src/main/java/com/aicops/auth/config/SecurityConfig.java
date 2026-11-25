@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -27,7 +28,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/login", "/api/v1/auth/refresh",
                                 "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
-                                "/actuator/health").permitAll()
+                                "/actuator/health", "/error").permitAll()
+                        // 注册接口免鉴权：仅放行 POST，查询/删除仍需 JWT
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

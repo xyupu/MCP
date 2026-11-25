@@ -1,8 +1,22 @@
 server:
   port: 8085
-  servlet:
-    context-path: /xyup
 
 spring:
   application:
     name: mcp-hub
+  ai:
+    mcp:
+      server:
+        name: aicops-mcp-hub
+        version: 0.1.0
+        type: SYNC
+        instructions: "AIOps 运维能力网关，暴露指标查询等运维工具。"
+        sse-message-endpoint: /mcp/message
+        capabilities:
+          tool: true
+          resource: true
+          prompt: true
+
+app:
+  metrics:
+    base-url: http://localhost:8086

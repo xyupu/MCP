@@ -1,8 +1,17 @@
 server:
   port: 8083
-  servlet:
-    context-path: /xyup
 
 spring:
   application:
     name: alert-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aicops
+    username: aicops
+    password: aicops
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration

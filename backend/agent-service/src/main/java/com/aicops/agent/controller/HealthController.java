@@ -1,16 +1,6 @@
 package com.aicops.agent.controller;
 
-import com.aicops.common.api.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/api/v1/agent")
+// 已废弃：健康检查由 AgentController 提供，本文件为避免路由冲突而移除映射。
+// 保留占位，阶段0 遗留，后续可删除。
 public class HealthController {
-
-    @GetMapping("/ping")
-    public Result<String> ping() {
-        return Result.ok("agent-service up");
-    }
 }

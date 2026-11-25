@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 解析 Authorization: Bearer <token>，写入 SecurityContext。
+ * 解析 Authorization: Bearer <token>，将用户与角色写入 SecurityContext。
  */
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -36,8 +36,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 Claims claims = jwtUtil.parse(token);
                 Long userId = Long.valueOf(claims.getSubject());
                 String username = claims.get("username", String.class);
-                var auth = new UsernamePasswordAuthenticationToken(
-                        username, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                @SuppressWarnings("unchecked")
+                List<String> roles = claims.get("roles", List.class);
+                List<SimpleGrantedAuthority> authorities = roles == null
+                        ? List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                        : roles.stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r)).toList();
+                var auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
                 auth.setDetails(userId);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {

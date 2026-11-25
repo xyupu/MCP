@@ -1,7 +1,5 @@
 server:
   port: 8080
-  servlet:
-    context-path: /xyup
 
 spring:
   application:
@@ -9,11 +7,26 @@ spring:
   cloud:
     gateway:
       routes:
-        # 阶段0 仅打通 auth-service；后续服务路由随阶段补充
         - id: auth-service
           uri: http://localhost:8081
           predicates:
-            - Path=/api/v1/auth/**
+            - Path=/api/v1/auth/**,/api/v1/users/**
+        - id: agent-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/agent/**
+        - id: alert-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/alerts/**
+        - id: mcp-hub
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/v1/tools/**
+        - id: metrics-service
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/v1/metrics/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 

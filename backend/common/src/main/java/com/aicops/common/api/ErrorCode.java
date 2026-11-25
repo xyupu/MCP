@@ -14,6 +14,7 @@ public enum ErrorCode {
     UNAUTHORIZED(40100, "未认证或认证失败"),
     FORBIDDEN(40300, "无权限访问"),
     NOT_FOUND(40400, "资源不存在"),
+    CONFLICT(40900, "资源已存在或状态冲突"),
     INTERNAL_ERROR(50000, "系统内部错误");
 
     private final int code;

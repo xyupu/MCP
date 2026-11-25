@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import MainLayout from '@/layout/MainLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -12,12 +13,25 @@ const router = createRouter({
     },
     {
       path: '/',
-      redirect: '/dashboard'
-    },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('@/views/DashboardView.vue')
+      component: MainLayout,
+      redirect: '/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('@/views/DashboardView.vue')
+        },
+        {
+          path: 'assistant',
+          name: 'assistant',
+          component: () => import('@/views/AssistantView.vue')
+        },
+        {
+          path: 'alerts',
+          name: 'alerts',
+          component: () => import('@/views/AlertsView.vue')
+        }
+      ]
     }
   ]
 })

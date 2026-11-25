@@ -1,5 +1,5 @@
 -- 阶段0 最小表结构：organizations + users
--- 完整表结构（roles/permissions/租户隔离字段等）在阶段1 的迁移脚本中补充
+-- 完整表结构（roles/permissions/租户隔离字段等）见 V2__rbac.sql
 
 CREATE TABLE IF NOT EXISTS organizations (
     id          BIGSERIAL PRIMARY KEY,

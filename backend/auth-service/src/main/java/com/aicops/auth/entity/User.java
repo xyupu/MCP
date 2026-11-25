@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,6 +38,13 @@ public class User {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @PrePersist
     void onCreate() {

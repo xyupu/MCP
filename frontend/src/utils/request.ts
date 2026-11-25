@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import router from '@/router'
 
 const request = axios.create({
-  baseURL: '/api/v1',
+  baseURL: '/xyup/api/v1',
   timeout: 15000
 })
 
@@ -21,7 +21,8 @@ request.interceptors.response.use(
     if (res && typeof res.code === 'number' && res.code !== 0) {
       return Promise.reject(new Error(res.message || '请求失败'))
     }
-    return res
+    // 统一解包 Result.data
+    return res?.data
   },
   (error) => {
     if (error.response?.status === 401) {

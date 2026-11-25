@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.List;
 
 /**
  * JWT 工具：签发与解析。
@@ -26,13 +27,14 @@ public class JwtUtil {
         this.expireSeconds = expireSeconds;
     }
 
-    public String generateToken(Long userId, String username, Long tenantId) {
+    public String generateToken(Long userId, String username, Long tenantId, List<String> roles) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expireSeconds * 1000);
         return Jwts.builder()
                 .subject(String.valueOf(userId))
                 .claim("username", username)
                 .claim("tenantId", tenantId)
+                .claim("roles", roles)
                 .issuedAt(now)
                 .expiration(expiry)
                 .signWith(key)
